@@ -1,0 +1,14 @@
+name: GitHub Actions test coverage
+on:
+  pull_request:
+  push:
+jobs:
+  Backend:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "This job was automatically triggered by a ${{ github.event_name }} event."
+      - name: Lancement des tests
+        run: mvn clean test
+      - name: Generation du rapport JaCoCo
+        run: mvn jacoco:report
+      - run: echo "This job's status is ${{ job.status }}."
