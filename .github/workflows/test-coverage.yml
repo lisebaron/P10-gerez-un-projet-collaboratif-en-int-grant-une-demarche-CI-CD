@@ -14,8 +14,9 @@ jobs:
           java-version: '11'
       - name: Check out repository code
         uses: actions/checkout@v4
-      - run: cd back
-      - run: ls
-      - run: mvn clean test
-      - run: mvn jacoco:report
+      - name: Build and test backend
+        run: |
+          cd backend
+          mvn clean test
+          mvn jacoco:report
       - run: echo "This job's status is ${{ job.status }}."
