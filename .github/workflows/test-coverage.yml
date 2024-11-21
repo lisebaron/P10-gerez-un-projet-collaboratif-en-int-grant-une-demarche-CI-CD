@@ -7,6 +7,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: echo "This job was automatically triggered by a ${{ github.event_name }} event."
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          java-version: '11'
       - name: Check out repository code
         uses: actions/checkout@v4
       - run: mvn clean test
