@@ -1,39 +1,35 @@
-name: GitHub Action Code Quality
+name: SonarQube
 on:
-  pull_request:
   push:
+  pull_request:
 jobs:
-  sonarqube:
-    runs-on: windows-latest
+  build:
+    name: Build and analyze
+    runs-on: ubuntu-latest
     steps:
-      - run: echo "This job was automatically triggered by a ${{ github.event_name }} event."
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - name: Set up JDK
         uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
           java-version: '11'
-      - name: Check out repository code
-        uses: actions/checkout@v4
-      - name: Build and test back
-        working-directory: back
-        run: mvn clean test
       - name: Cache SonarQube packages
-        uses: actions/cache@v1
+        uses: actions/cache@v4
         with:
           path: ~/.sonar/cache
           key: ${{ runner.os }}-sonar
           restore-keys: ${{ runner.os }}-sonar
       - name: Cache Maven packages
-        uses: actions/cache@v1
+        uses: actions/cache@v4
         with:
           path: ~/.m2
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
       - name: Build and analyze
+        working-directory: back
         env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-        run: |
-          cd back
-          mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
-      - run: echo "This job's status is ${{ job.status }}."
+        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=lisebaron_P10-gerez-un-projet-collaboratif-en-int-grant-une-demarche-CI-CD
