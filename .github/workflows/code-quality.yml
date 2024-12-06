@@ -1,0 +1,36 @@
+name: GitHub Action Code Quality
+on:
+  pull_request:
+  push:
+jobs:
+  sonarqube:
+    runs-on: windows-latest
+    steps:
+      - run: echo "This job was automatically triggered by a ${{ github.event_name }} event."
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '11'
+      - name: Check out repository code
+        uses: actions/checkout@v4
+      - name: Cache SonarQube packages
+        uses: actions/cache@v1
+        with:
+          path: ~/.sonar/cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
+      - name: Cache Maven packages
+        uses: actions/cache@v1
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+      - name: Build and analyze
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+        run: |
+          cd back
+          mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
+      - run: echo "This job's status is ${{ job.status }}."
