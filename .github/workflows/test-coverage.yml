@@ -30,11 +30,11 @@ jobs:
     steps:
       - run: echo "This job was automatically triggered by a ${{ github.event_name }} event."
       - name: Set up Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v2
         with:
           node-version: '22'
       - name: Check out repository code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v2
       - name: Install dependencies
         run: npm install
         working-directory: front
