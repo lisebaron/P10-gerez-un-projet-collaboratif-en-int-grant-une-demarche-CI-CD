@@ -55,6 +55,9 @@ jobs:
         working-directory: front
         run: npm install
 
+      - name: Clear npm cache
+        run: npm cache clean --force
+
       - name: SonarQube Scan Frontend
         working-directory: front
         run: |
