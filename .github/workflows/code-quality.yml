@@ -41,7 +41,6 @@ jobs:
         with:
           fetch-depth: 0
       - name: SonarQube Scan
-        working-directory: front
         uses: SonarSource/sonarqube-scan-action@v4
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
