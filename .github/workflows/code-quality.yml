@@ -51,12 +51,12 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v4
 
+      - name: Clear npm cache
+        run: npm cache clean --force
+
       - name: Install dependencies
         working-directory: front
         run: npm install
-
-      - name: Clear npm cache
-        run: npm cache clean --force
 
       - name: SonarQube Scan Frontend
         working-directory: front
