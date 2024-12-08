@@ -54,13 +54,13 @@ jobs:
       - name: Install dependencies
         working-directory: front
         run: npm install
-
-      - name: SonarQube Scan Frontend
-        working-directory: front
-        run: |
-          npm install -g sonar-scanner@latest
-          sonar-scanner -Dsonar.projectBaseDir=frontend
-        env:
-          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         
+      - name: Scanner le code avec SonarCloud
+        uses: SonarSource/sonarcloud-github-action@master
+        with:
+          projectBaseDir: front
+          args: >
+            -Dsonar.organization=${{ secrets.SONAR_ORGANIZATION }}
+            -Dsonar.projectKey=${{ secrets.SONAR_PROJECT_KEY_FRONT }}
+            env:
+              SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
