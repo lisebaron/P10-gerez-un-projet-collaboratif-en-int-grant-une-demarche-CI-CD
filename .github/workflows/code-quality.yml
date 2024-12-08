@@ -54,7 +54,7 @@ jobs:
       - name: Install dependencies
         working-directory: front
         run: npm install
-        
+
       - name: Scanner le code avec SonarCloud
         uses: SonarSource/sonarcloud-github-action@master
         with:
@@ -62,5 +62,5 @@ jobs:
           args: >
             -Dsonar.organization=${{ secrets.SONAR_ORGANIZATION }}
             -Dsonar.projectKey=${{ secrets.SONAR_PROJECT_KEY_FRONT }}
-            env:
-              SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
