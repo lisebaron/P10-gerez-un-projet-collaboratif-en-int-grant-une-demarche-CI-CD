@@ -57,7 +57,7 @@ jobs:
 
       - name: SonarQube Scan Frontend
         run: |
-          npm install -g sonar-scanner
+          npm install -g sonar-scanner@latest
           sonar-scanner -Dsonar.projectBaseDir=frontend
         env:
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
