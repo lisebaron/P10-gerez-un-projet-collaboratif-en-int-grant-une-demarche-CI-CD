@@ -1,0 +1,40 @@
+name: GitHub Action DockerHub
+on:
+  pull_request:
+  push:
+    branches:
+      main
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+
+      - name: Extract Docker image metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ vars.DOCKER_USERNAME }}/my-image
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ vars.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build and push Docker Backend image
+        uses: docker/build-push-action@v6
+        with:
+          context: ./back
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ steps.meta.outputs.tags }}
+          annotations: ${{ steps.meta.outputs.annotations }}
+          
+      - name: Build and push Docker Frontend image
+        uses: docker/build-push-action@v6
+        with:
+          context: ./front
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ steps.meta.outputs.tags }}
+          annotations: ${{ steps.meta.outputs.annotations }}
