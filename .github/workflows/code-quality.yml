@@ -1,4 +1,4 @@
-name: SonarQube
+name: SonarCloud
 on:
   push:
   pull_request:
@@ -17,7 +17,7 @@ jobs:
           distribution: 'temurin'
           java-version: '11'
       
-      - name: Cache SonarQube packages
+      - name: Cache Sonar packages
         uses: actions/cache@v4
         with:
           path: ~/.sonar/cache
@@ -31,7 +31,7 @@ jobs:
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
 
-      - name: Build and SonarQube Scan Backend
+      - name: Build and Sonar Scan Backend
         working-directory: back
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -49,13 +49,13 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '16'
+          node-version: '22'
 
       - name: Install dependencies
         working-directory: front
         run: npm install
 
-      - name: Scanner le code avec SonarCloud
+      - name: Sonar Scan Frontend
         uses: SonarSource/sonarcloud-github-action@master
         with:
           projectBaseDir: front
