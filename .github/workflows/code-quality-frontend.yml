@@ -26,6 +26,6 @@ jobs:
           projectBaseDir: front
           args: >
             -Dsonar.organization=${{ secrets.SONAR_ORGANIZATION }}
-            -Dsonar.projectKey=${{ env.SONAR_PROJECT_KEY_FRONTEND }}
+            -Dsonar.projectKey=lisebaron_front
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_V2 }}
