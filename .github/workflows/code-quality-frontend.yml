@@ -1,4 +1,4 @@
-name: SonarCloud
+name: SonarCloud Frontend
 on:
   push:
   pull_request:
@@ -26,6 +26,6 @@ jobs:
           projectBaseDir: front
           args: >
             -Dsonar.organization=${{ secrets.SONAR_ORGANIZATION }}
-            -Dsonar.projectKey=${{ secrets.SONAR_PROJECT_KEY_FRONT }}
+            -Dsonar.projectKey=lisebaron_front
         env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_V2 }}
